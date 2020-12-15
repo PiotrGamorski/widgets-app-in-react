@@ -3,15 +3,6 @@ import React, { useState } from "react";
 const Accordion = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(null);
 
-  //Example to understand the above syntax
-  const colors = ["red", "green"];
-  const redColor = colors[0];
-  const greenColor = colors[1];
-  console.log(redColor, greenColor);
-  //instead we may have a shorter version
-  const [firstElement, secondElement] = colors;
-  console.log(firstElement, secondElement);
-
   const onTitleClick = (index) => {
     setActiveIndex(index);
   };
@@ -21,10 +12,7 @@ const Accordion = ({ items }) => {
 
     return (
       <React.Fragment key={item.title}>
-        <div
-          className={`title ${active}`}
-          onClick={() => onTitleClick(index)} //why do we have still arrow function?
-        >
+        <div className={`title ${active}`} onClick={() => onTitleClick(index)}>
           <i className="dropdown icon"></i>
           {item.title}
         </div>
@@ -35,11 +23,7 @@ const Accordion = ({ items }) => {
     );
   });
 
-  return (
-    <div className="ui styled accordion">
-      {renderedItems}
-    </div>
-  );
+  return <div className="ui styled accordion">{renderedItems}</div>;
 };
 
 export default Accordion;
