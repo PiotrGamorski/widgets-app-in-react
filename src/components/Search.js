@@ -7,34 +7,41 @@ const Search = () => {
 
   useEffect(() => {
     const search = async () => {
-      const { data } = await axios.get("https://en.wikipedia.org/w/api.php", {
-        params: {
-          action: "query",
-          list: "search",
-          origin: "*",
-          format: "json",
-          srsearch: term,
-        },
-      });
+      try {
+        const { data } = await axios.get("https://en.wikipedia.org/w/api.php", {
+          params: {
+            action: "query",
+            list: "search",
+            origin: "*",
+            format: "json",
+            srsearch: term,
+          },
+        });
 
-      setResults(data.query.search);
+        setResults(data.query.search);
+      } catch (error) {}
     };
 
-    if (term) {
-      try {
+    const timeoutID = setTimeout(() => {
+      if (term) {
         search();
-      } catch (error) {}
-    }
+      }
+    }, 500);
+
+    return () => {
+      clearTimeout(timeoutID);
+    };
   }, [term]);
 
   const renderedResults = results.map((result) => {
     return (
       <div key={result.pageid} className="item">
         <div className="right floated content">
-          <a className="ui button"
-          href={`https://en.wikipedia.org?curid=${result.pageid}`}
+          <a
+            className="ui button"
+            href={`https://en.wikipedia.org?curid=${result.pageid}`}
           >
-          Go
+            Go
           </a>
         </div>
         <div className="content">
